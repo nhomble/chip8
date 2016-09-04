@@ -260,8 +260,6 @@ void ld_st_vx(struct chip8 *cpu){
 
 // add to I, Vx
 void add_i_vx(struct chip8 *cpu){
-	// undocumented mentioned in reddit/wiki
-	Vf(cpu) = (I(cpu) + Vx(cpu)) > 0xFFFF;
 	I(cpu) += Vx(cpu);
 	pc_step(cpu);
 }
@@ -286,6 +284,7 @@ void ld_i_vx(struct chip8 *cpu){
 	unsigned int i;
 	for(i = 0; i <= Vx(cpu); ++i)
 		cpu->memory[I(cpu) + i] = cpu->V[i];
+	I(cpu) += Vx(cpu) + 1;
 	pc_step(cpu);
 }
 
@@ -294,5 +293,6 @@ void ld_vx_i(struct chip8 *cpu){
 	unsigned int i;
 	for(i = 0; i <= Vx(cpu); ++i)
 		cpu->V[i] = cpu->memory[I(cpu) + i];
+	I(cpu) += Vx(cpu) + 1;
 	pc_step(cpu);
 }
