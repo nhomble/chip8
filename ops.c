@@ -282,17 +282,19 @@ void ld_b_vx(struct chip8 *cpu){
 // store registers 0 to x in memory starting at I
 void ld_i_vx(struct chip8 *cpu){
 	unsigned int i;
-	for(i = 0; i <= Vx(cpu); ++i)
+	unsigned char x = (cpu->opcode & 0x0F00) >> 8;
+	for(i = 0; i <= x; ++i)
 		cpu->memory[I(cpu) + i] = cpu->V[i];
-	I(cpu) += Vx(cpu) + 1;
+	I(cpu) += x + 1;
 	pc_step(cpu);
 }
 
 // read registers 0 to x in memory starting at I
 void ld_vx_i(struct chip8 *cpu){
 	unsigned int i;
-	for(i = 0; i <= Vx(cpu); ++i)
+	unsigned char x = (cpu->opcode & 0x0F00) >> 8;
+	for(i = 0; i <= x; ++i)
 		cpu->V[i] = cpu->memory[I(cpu) + i];
-	I(cpu) += Vx(cpu) + 1;
+	I(cpu) += x + 1;
 	pc_step(cpu);
 }

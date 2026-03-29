@@ -303,9 +303,49 @@ static void test_rnd_vx_byte(void){
 	assert(cpu.pc == 2);
 }
 
+static void test_ld_i_vx(void){
+	struct chip8 cpu = {0};
+	cpu.pc = 0;
+	cpu.opcode = 0xF355;
+	cpu.I = 0x300;
+	cpu.V[0] = 10;
+	cpu.V[1] = 20;
+	cpu.V[2] = 30;
+	cpu.V[3] = 40;
+	cpu.V[4] = 99;
+	ld_i_vx(&cpu);
+	assert(cpu.memory[0x300] == 10);
+	assert(cpu.memory[0x301] == 20);
+	assert(cpu.memory[0x302] == 30);
+	assert(cpu.memory[0x303] == 40);
+	assert(cpu.memory[0x304] != 99);
+	assert(cpu.I == 0x304);
+	assert(cpu.pc == 2);
+}
+
+static void test_ld_vx_i(void){
+	struct chip8 cpu = {0};
+	cpu.pc = 0;
+	cpu.opcode = 0xF265;
+	cpu.I = 0x300;
+	cpu.memory[0x300] = 11;
+	cpu.memory[0x301] = 22;
+	cpu.memory[0x302] = 33;
+	cpu.memory[0x303] = 44;
+	ld_vx_i(&cpu);
+	assert(cpu.V[0] == 11);
+	assert(cpu.V[1] == 22);
+	assert(cpu.V[2] == 33);
+	assert(cpu.V[3] != 44);
+	assert(cpu.I == 0x303);
+	assert(cpu.pc == 2);
+}
+
 int main(void){
 	test_stack();
 	test_rnd_vx_byte();
+	test_ld_i_vx();
+	test_ld_vx_i();
 	test_jp_v0_addr();
 	test_ld_i_addr();
 	test_sne_vx();
