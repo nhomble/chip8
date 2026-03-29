@@ -15,6 +15,12 @@ void destroy_window(WINDOW *win){
 
 WINDOW* create_win(int height, int width){
 	WINDOW *local;
+	if(LINES < height || COLS < width){
+		endwin();
+		fprintf(stderr, "terminal too small: need %dx%d, have %dx%d\n",
+			width, height, COLS, LINES);
+		exit(1);
+	}
 	local = newwin(height, width, (LINES - height) / 2, (COLS - width) / 2);
 	box(local, 0, 0);
 	wrefresh(local);
