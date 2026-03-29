@@ -4,5 +4,5 @@
 
 WINDOW* create_win(int height, int width);
 void draw(WINDOW *win, struct chip8 *cpu);
-void init_screen();
+void init_screen(void);
 void  destroy_window(WINDOW *win);

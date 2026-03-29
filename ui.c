@@ -38,7 +38,7 @@ void draw(WINDOW *win, struct chip8 *chip8){
 }
 
 // ncurses things
-void init_screen(){
+void init_screen(void){
 	initscr();
 	noecho();
 	cbreak();

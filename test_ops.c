@@ -7,7 +7,7 @@
 #include "ops.h"
 #include "chip8.h"
 
-static void test_stack(){
+static void test_stack(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x1234;
@@ -31,7 +31,7 @@ static void test_stack(){
 	assert(cpu.pc == 2);
 }
 
-static void test_clc(){
+static void test_clc(void){
 	struct chip8 cpu = {0};
 	cpu.should_draw = 0;
 	cpu.gfx[0][0] = 1;
@@ -39,7 +39,7 @@ static void test_clc(){
 	assert(cpu.gfx[0][0] == 0);
 }
 
-static void test_ret(){
+static void test_ret(void){
 	struct chip8 cpu = {0};
 	cpu.sp = 1;
 	cpu.stack[1] = 11;
@@ -48,7 +48,7 @@ static void test_ret(){
 	assert(cpu.pc = 11);
 }
 
-static void test_jp_addr(){
+static void test_jp_addr(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x0123;
@@ -56,7 +56,7 @@ static void test_jp_addr(){
 	assert(cpu.opcode == 0x0123);
 }
 
-static void test_call_addr(){
+static void test_call_addr(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 1;
 	cpu.opcode = 88;
@@ -69,7 +69,7 @@ static void test_call_addr(){
 	assert(cpu.pc == 1 + 2);
 }
 
-static void test_se_vx_byte(){
+static void test_se_vx_byte(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[1] = 0x10;
@@ -81,7 +81,7 @@ static void test_se_vx_byte(){
 	assert(cpu.pc == 6);
 }
 
-static void test_sne_vx_byte(){
+static void test_sne_vx_byte(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[1] = 0x10;
@@ -93,7 +93,7 @@ static void test_sne_vx_byte(){
 	assert(cpu.pc == 6);
 }
 
-static void test_se_vx_vy(){
+static void test_se_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.V[0] = 1;
 	cpu.V[1] = 1;
@@ -106,7 +106,7 @@ static void test_se_vx_vy(){
 	assert(cpu.pc == 6);
 }
 
-static void test_ld_vx_byte(){
+static void test_ld_vx_byte(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 0;
@@ -116,7 +116,7 @@ static void test_ld_vx_byte(){
 	assert(cpu.V[0] == 0x99);
 }
 
-static void test_add_vx_byte(){
+static void test_add_vx_byte(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[1] = 1;
@@ -126,7 +126,7 @@ static void test_add_vx_byte(){
 	assert(cpu.V[1] == 1 + 0x02);
 }
 
-static void test_ld_vx_vy(){
+static void test_ld_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 2;
@@ -137,7 +137,7 @@ static void test_ld_vx_vy(){
 	assert(cpu.V[0] == cpu.V[1]);
 }
 
-static void test_or_vx_vy(){
+static void test_or_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 0x0001;
@@ -148,7 +148,7 @@ static void test_or_vx_vy(){
 	assert(cpu.V[0] == 0x0011);
 }
 
-static void test_and_vx_vy(){
+static void test_and_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 0x0011;
@@ -159,7 +159,7 @@ static void test_and_vx_vy(){
 	assert(cpu.pc == 2);
 }
 
-static void test_xor_vx_vy(){
+static void test_xor_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 0x00F0;
@@ -170,7 +170,7 @@ static void test_xor_vx_vy(){
 	assert(cpu.V[0] == 0x000F);
 }
 
-static void test_add_vx_vy(){
+static void test_add_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.V[0] = 0;
@@ -188,7 +188,7 @@ static void test_add_vx_vy(){
 	assert(cpu.V[0] == 2);
 }
 
-static void test_sub_vx_vy(){
+static void test_sub_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x0010;
@@ -208,7 +208,7 @@ static void test_sub_vx_vy(){
 	assert(cpu.pc == 4);
 }
 
-static void test_shr_vx(){
+static void test_shr_vx(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x0000;
@@ -224,7 +224,7 @@ static void test_shr_vx(){
 	assert(cpu.pc == 4);
 }
 
-static void test_subn_vx_vy(){
+static void test_subn_vx_vy(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x0010;
@@ -245,7 +245,7 @@ static void test_subn_vx_vy(){
 	assert(cpu.pc == 4);
 }
 
-static void test_shl_vx(){
+static void test_shl_vx(void){
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
 	cpu.opcode = 0x0000;
@@ -261,7 +261,7 @@ static void test_shl_vx(){
 	assert(cpu.V[0] == 0x4);
 }
 
-static void test_sne_vx(){
+static void test_sne_vx(void){
 	struct chip8 cpu = {0};
 	cpu.opcode = 0x0010;
 	cpu.V[0] = 0;
@@ -274,7 +274,7 @@ static void test_sne_vx(){
 	assert(cpu.pc == 6);
 }
 
-static void test_ld_i_addr(){
+static void test_ld_i_addr(void){
 	struct chip8 cpu = {0};
 	cpu.opcode = 0x0123;
 	cpu.pc = 0;
@@ -284,7 +284,7 @@ static void test_ld_i_addr(){
 	assert(cpu.I == 0x0123);
 }
 
-static void test_jp_v0_addr(){
+static void test_jp_v0_addr(void){
 	struct chip8 cpu = {0};
 	cpu.opcode = 0x0123;
 	cpu.V[0] = 0x1;
@@ -293,7 +293,7 @@ static void test_jp_v0_addr(){
 	assert(cpu.pc == 0x0124);
 }
 
-static void test_rnd_vx_byte(){
+static void test_rnd_vx_byte(void){
 	srand(time(NULL));
 	struct chip8 cpu = {0};
 	cpu.pc = 0;
