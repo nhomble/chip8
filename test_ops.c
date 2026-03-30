@@ -330,6 +330,29 @@ static void test_sknp_vx(void){
 	assert(cpu.pc == 6);  // not skipped (pressed)
 }
 
+static void test_ld_vx_k(void){
+	struct chip8 cpu = {0};
+	cpu.pc = 0;
+	cpu.opcode = 0xF00A;
+
+	// no key pressed — pc should not advance
+	ld_vx_k(&cpu);
+	assert(cpu.pc == 0);
+
+	// one key pressed
+	cpu.keys[7] = 1;
+	ld_vx_k(&cpu);
+	assert(cpu.V[0] == 7);
+	assert(cpu.pc == 2);
+
+	// multiple keys pressed — should only step pc once
+	cpu.pc = 0;
+	cpu.keys[3] = 1;
+	cpu.keys[9] = 1;
+	ld_vx_k(&cpu);
+	assert(cpu.pc == 2);
+}
+
 static void test_rnd_vx_byte(void){
 	srand(time(NULL));
 	struct chip8 cpu = {0};
@@ -385,6 +408,7 @@ int main(void){
 	test_ld_vx_i();
 	test_skp_vx();
 	test_sknp_vx();
+	test_ld_vx_k();
 	test_jp_v0_addr();
 	test_ld_i_addr();
 	test_sne_vx();

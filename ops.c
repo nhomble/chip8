@@ -242,11 +242,11 @@ void ld_vx_dt(struct chip8 *cpu){
 // store key press in vx
 void ld_vx_k(struct chip8 *cpu){
 	int i;
-	get_keys(cpu);
 	for(i = 0; i < NUM_KEYS; ++i){
 		if(cpu->keys[i]){
 			Vx(cpu) = i;
 			pc_step(cpu);
+			return;
 		}
 	}
 }
