@@ -42,10 +42,10 @@ static void test_clc(void){
 static void test_ret(void){
 	struct chip8 cpu = {0};
 	cpu.sp = 1;
-	cpu.stack[1] = 11;
+	cpu.stack[0] = 11;  // ret pops stack[sp-1]
 	ret(&cpu);
 	assert(cpu.sp == 0);
-	assert(cpu.pc = 11);
+	assert(cpu.pc == 13);  // 11 + 2 (pc_step)
 }
 
 static void test_jp_addr(void){
@@ -179,7 +179,7 @@ static void test_add_vx_vy(void){
 	cpu.opcode = 0x0010;
 	add_vx_vy(&cpu);
 	assert(cpu.pc == 2);
-	assert(cpu.V[0] = 1);
+	assert(cpu.V[0] == 1);
 	assert(cpu.V[0xF] == 0);
 	cpu.V[0] = 0xFF;
 	cpu.V[1] = 3;
