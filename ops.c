@@ -221,7 +221,6 @@ void drw_vx_vy_nibble(struct chip8 *cpu){
 // skip next instruction if key(Vx) is pressed
 void skp_vx(struct chip8 *cpu){
 	pc_step(cpu);
-	get_keys(cpu);
 	if(cpu->keys[Vx(cpu)])
 		pc_step(cpu);
 }
@@ -229,7 +228,6 @@ void skp_vx(struct chip8 *cpu){
 // skip next instruction if key(Vx) is not pressed
 void sknp_vx(struct chip8 *cpu){
 	pc_step(cpu);
-	get_keys(cpu);
 	if(!(cpu->keys[Vx(cpu)]))
 		pc_step(cpu);
 }

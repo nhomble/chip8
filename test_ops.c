@@ -302,6 +302,34 @@ static void test_jp_v0_addr(void){
 	assert(cpu.pc == 0x0124);
 }
 
+static void test_skp_vx(void){
+	struct chip8 cpu = {0};
+	cpu.pc = 0;
+	cpu.opcode = 0xE09E;
+	cpu.V[0] = 5;
+	cpu.keys[5] = 1;
+	skp_vx(&cpu);
+	assert(cpu.pc == 4);  // skipped
+
+	cpu.keys[5] = 0;
+	skp_vx(&cpu);
+	assert(cpu.pc == 6);  // not skipped
+}
+
+static void test_sknp_vx(void){
+	struct chip8 cpu = {0};
+	cpu.pc = 0;
+	cpu.opcode = 0xE0A1;
+	cpu.V[0] = 5;
+	cpu.keys[5] = 0;
+	sknp_vx(&cpu);
+	assert(cpu.pc == 4);  // skipped (not pressed)
+
+	cpu.keys[5] = 1;
+	sknp_vx(&cpu);
+	assert(cpu.pc == 6);  // not skipped (pressed)
+}
+
 static void test_rnd_vx_byte(void){
 	srand(time(NULL));
 	struct chip8 cpu = {0};
@@ -355,6 +383,8 @@ int main(void){
 	test_rnd_vx_byte();
 	test_ld_i_vx();
 	test_ld_vx_i();
+	test_skp_vx();
+	test_sknp_vx();
 	test_jp_v0_addr();
 	test_ld_i_addr();
 	test_sne_vx();
