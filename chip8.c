@@ -11,6 +11,7 @@
 
 void load_rom(struct chip8 *cpu, char *rom_path){
 	FILE* file;
+	long size;
 	int read;
 	file = fopen(rom_path, "rb");
 	if(!file){
@@ -18,8 +19,14 @@ void load_rom(struct chip8 *cpu, char *rom_path){
 		return;
 	}
 	fseek(file, 0L, SEEK_END);
+	size = ftell(file);
 	rewind(file);
-	read = fread(cpu->memory + ROM_START, sizeof(unsigned char), MEMORY_SIZE, file);
+	if(size > MEMORY_SIZE - ROM_START){
+		fclose(file);
+		cpu->error = E_LROM;
+		return;
+	}
+	read = fread(cpu->memory + ROM_START, sizeof(unsigned char), MEMORY_SIZE - ROM_START, file);
 	fclose(file);
 
 	cpu->error = !read;
