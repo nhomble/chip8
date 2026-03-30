@@ -17,6 +17,7 @@ chocolate_chip: run.c chip8.o ops.o ui.c ui.h
 test: test_ops.c chip8.o ops.o ui.c
 	$(CC) $(CFLAGS) -g test_ops.c chip8.o ops.o ui.c -o test $(LDFLAGS)
 	./test
+	rm ./test
 
 .PHONY: clean test
 
