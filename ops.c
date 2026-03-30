@@ -150,7 +150,7 @@ void shr_vx(struct chip8 *cpu){
 
 // Vx = Vy - Vx
 void subn_vx_vy(struct chip8 *cpu){
-	Vf(cpu) = Vx(cpu) > Vy(cpu);
+	Vf(cpu) = Vy(cpu) >= Vx(cpu);
 	Vx(cpu) = Vy(cpu) - Vx(cpu);
 	pc_step(cpu);
 }

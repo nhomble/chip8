@@ -234,14 +234,14 @@ static void test_subn_vx_vy(void){
 
 	subn_vx_vy(&cpu);
 	assert(cpu.V[0] == 1);
-	assert(cpu.V[0xF] == 0);
+	assert(cpu.V[0xF] == 1);  // no borrow: Vy(1) >= Vx(0)
 	assert(cpu.pc == 2);
 
 	cpu.V[0] = 1;
 	cpu.V[1] = 0;
 	subn_vx_vy(&cpu);
 	assert(cpu.V[0] == 255);
-	assert(cpu.V[0xF] == 1);
+	assert(cpu.V[0xF] == 0);  // borrow: Vy(0) < Vx(1)
 	assert(cpu.pc == 4);
 }
 
