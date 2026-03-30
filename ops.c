@@ -129,36 +129,43 @@ void xor_vx_vy(struct chip8 *cpu){
 void add_vx_vy(struct chip8 *cpu){
 	unsigned int tmp;
 	tmp = Vx(cpu) + Vy(cpu);
-	Vf(cpu) = tmp > REGISTER_MAX_VAL;
+	unsigned char carry = tmp > REGISTER_MAX_VAL;
 	Vx(cpu) = tmp & 0xFF;
+	Vf(cpu) = carry;
 	pc_step(cpu);
 }
 
 // Vx -= Vy
 void sub_vx_vy(struct chip8 *cpu){
-	Vf(cpu) = Vx(cpu) >= Vy(cpu);
-	Vx(cpu) -= Vy(cpu);
+	unsigned char no_borrow = Vx(cpu) >= Vy(cpu);
+	unsigned char result = Vx(cpu) - Vy(cpu);
+	Vx(cpu) = result;
+	Vf(cpu) = no_borrow;
 	pc_step(cpu);
 }
 
 // Vx = shift logical bit right
 void shr_vx(struct chip8 *cpu){
-	Vf(cpu) = LSB(Vx(cpu));
+	unsigned char lsb = LSB(Vx(cpu));
 	Vx(cpu) >>= 1;
+	Vf(cpu) = lsb;
 	pc_step(cpu);
 }
 
 // Vx = Vy - Vx
 void subn_vx_vy(struct chip8 *cpu){
-	Vf(cpu) = Vy(cpu) >= Vx(cpu);
-	Vx(cpu) = Vy(cpu) - Vx(cpu);
+	unsigned char no_borrow = Vy(cpu) >= Vx(cpu);
+	unsigned char result = Vy(cpu) - Vx(cpu);
+	Vx(cpu) = result;
+	Vf(cpu) = no_borrow;
 	pc_step(cpu);
 }
 
 // shift left vx
 void shl_vx(struct chip8 *cpu){
-	Vf(cpu) = MSB(Vx(cpu));
+	unsigned char msb = MSB(Vx(cpu));
 	Vx(cpu) <<= 1;
+	Vf(cpu) = msb;
 	pc_step(cpu);
 }
 

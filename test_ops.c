@@ -206,6 +206,15 @@ static void test_sub_vx_vy(void){
 	assert(cpu.V[0] == 1);
 	assert(cpu.V[0xF] == 1);
 	assert(cpu.pc == 4);
+
+	// VF as destination: 8F10 means VF -= V1
+	cpu.pc = 0;
+	cpu.opcode = 0x8F10;
+	cpu.V[0xF] = 5;
+	cpu.V[1] = 3;
+	sub_vx_vy(&cpu);
+	assert(cpu.V[0xF] == 1);  // flag wins over result
+	assert(cpu.pc == 2);
 }
 
 static void test_shr_vx(void){
